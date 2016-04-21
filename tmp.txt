@@ -1,0 +1,86 @@
+cmake_minimum_required(VERSION 2.8)
+
+# set(GLEW_LIBRARY)
+project("test")
+set(test "dfsdf")
+
+#SET(BUILD_SHARED_LIBRARIES OFF)
+#set(CMAKE_EXE_LINKER_FLAGS "-static")
+
+include_directories("${CMAKE_SOURCE_DIR}/Include")
+add_executable("${test}" "main.cpp")
+target_link_libraries("${test}" "${CMAKE_SOURCE_DIR}/Lib/freeglut.lib" "${CMAKE_SOURCE_DIR}/Lib/glew32.lib")
+
+
+//-------------------------------------------------------------------------
+
+#include "GL/glew.h"
+#include "GL/freeglut.h"
+
+#include <iostream>
+
+struct Vector3f
+{
+    float x,y,z;
+
+    Vector3f() {}
+
+    Vector3f(float _x, float _y, float _z) {}
+};
+
+static void RenderSceneCB()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glutSwapBuffers();
+}
+
+static void InitializeGlutCallbacks()
+{
+    glutDisplayFunc(RenderSceneCB);
+}
+
+
+int main(int argc, char** argv)
+{
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA);
+    glutInitWindowSize(1024, 768);
+    glutInitWindowPosition(100, 100);
+    glutCreateWindow("Tutorial 01");
+
+    GLenum res = glewInit();
+    if (res != GLEW_OK)
+    {
+        std::cout << "Error: " << glewGetErrorString(res) << std::endl;
+        return 1;
+    }
+
+    GLint v;
+    glGetIntegerv(GL_MAJOR_VERSION, &v);
+    std::cout << "major : " << v << std::endl;
+    glGetIntegerv(GL_MINOR_VERSION, &v);
+    std::cout << "minor :" << v << std::endl;
+    glGetIntegerv(GL_NUM_SHADING_LANGUAGE_VERSIONS, &v);
+//     glGetIntegerv(GL_NUM_SHADING_LANGUAGE_VERSIONS, &v)​​;
+     std::cout << "shading " << v << std::endl;
+
+
+    std::cout << glGetString(GL_VERSION) << std::endl;
+
+    Vector3f vertices[1];
+    vertices[0] = Vector3f(0.0f, 0.0f, 0.0f);
+
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+
+    InitializeGlutCallbacks();
+
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+    glutMainLoop();
+    
+    return 0;
+}
