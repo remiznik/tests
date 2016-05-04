@@ -6,3 +6,4 @@ https://github.com/afiskon/cpp-opengl-simple-project
 https://github.com/openglsuperbible/sb7code
 http://www.opengl-tutorial.org/
 https://github.com/gametutorials
+https://www.khanacademy.org/math/linear-algebra/vectors_and_spaces/dot_cross_products/v/linear-algebra-cross-product-introduction
