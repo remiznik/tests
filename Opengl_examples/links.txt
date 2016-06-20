@@ -1,0 +1,2 @@
+http://in2gpu.com/2014/10/17/creating-opengl-window/
+http://www.learnopengl.com/#!Lighting/Materials
