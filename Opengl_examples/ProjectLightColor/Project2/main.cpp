@@ -186,6 +186,24 @@ int main()
 		glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
 		glUniform3f(viewPosLoc, camera.position().x, camera.position().y, camera.position().z);
 
+		GLint matAmbientLoc = glGetUniformLocation(lightingShader.id(), "material.ambient");
+		GLint matDiffuseLoc = glGetUniformLocation(lightingShader.id(), "material.diffuse");
+		GLint matSpecularLoc = glGetUniformLocation(lightingShader.id(), "material.specular");
+		GLint matShineLoc = glGetUniformLocation(lightingShader.id(), "material.shininess");
+
+		glUniform3f(matAmbientLoc, .0f, .1f, .6f);		
+		glUniform3f(matDiffuseLoc, 0.0f, 0.50980392f, 0.50980392f);
+		glUniform3f(matSpecularLoc, 0.50196078f, 0.50196078f, 0.50196078f);
+		glUniform1f(matShineLoc, 32.0f);
+
+		GLint lightAmbientLoc = glGetUniformLocation(lightingShader.id(), "light.ambient");
+		GLint lightDiffuseLoc = glGetUniformLocation(lightingShader.id(), "light.diffuse");
+		GLint lightSpecularLoc = glGetUniformLocation(lightingShader.id(), "light.specular");
+
+		glUniform3f(lightAmbientLoc, 1.f, 1.f, 1.f);
+		glUniform3f(lightDiffuseLoc, 1.f, 1.f, 1.f);
+		glUniform3f(lightSpecularLoc, 1.f, 1.f, 1.f);
+
 		// Create camera transformations
 		glm::mat4 view;
 		view = camera.GetViewMatrix();
