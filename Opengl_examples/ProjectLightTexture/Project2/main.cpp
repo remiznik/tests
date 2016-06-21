@@ -161,9 +161,14 @@ int main()
 	glBindVertexArray(0);
 
 	Texture text("../../resourses/images/container2.png");
+	Texture text2("../../resourses/images/lighting_maps_specular_color.png");
+	Texture text3("../../resourses/images/matrix.jpg");
 
 	lightingShader.use();
 	glUniform1i(glGetUniformLocation(lightingShader.id(), "material.diffuse"), 0);
+	glUniform1i(glGetUniformLocation(lightingShader.id(), "material.specular"), 1);
+	GLint i = glGetUniformLocation(lightingShader.id(), "material.emis");
+	glUniform1i(glGetUniformLocation(lightingShader.id(), "material.emis"), 2);
 
 	// Game loop
 	while (!glfwWindowShouldClose(window))
@@ -211,6 +216,12 @@ int main()
 		// Bind diffuse map
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, text.id());
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, text2.id());
+
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, text3.id());
 		
 
 		// Draw the container (using container's vertex attributes)

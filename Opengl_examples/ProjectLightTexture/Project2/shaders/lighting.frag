@@ -12,9 +12,10 @@ uniform vec3 objectColor;
 
 struct Material {
 	sampler2D diffuse;
+	sampler2D specular;
+	sampler2D emis;
 
     vec3 ambient;
-    vec3 specular;
     float shininess;
 }; 
   
@@ -48,8 +49,8 @@ void main()
     vec3 viewDir = normalize(viewPos - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = light.specular * (spec * material.specular);  
+    vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));  
         
-    vec3 result = ambient + diffuse + specular;
+    vec3 result = ambient + diffuse + specular + vec3(texture(material.emis, TexCoords));
     color = vec4(result, 1.0f);
 } 
