@@ -69,7 +69,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)..\dep\glew\include;$(SolutionDir)..\dep\freeimage\include;$(SolutionDir)..\dep\glm;$(SolutionDir)..\dep\glfw\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\dep\glew\include;$(SolutionDir)..\dep\freeimage\include;$(SolutionDir)..\dep\glm;$(SolutionDir)..\common\src;$(SolutionDir)..\common\include;$(SolutionDir)..\dep\glfw\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\dep\glfw\lib;$(SolutionDir)..\dep\glew\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -117,23 +117,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\common\src\Camera.cpp" />
+    <ClCompile Include="..\..\common\src\program.cpp" />
     <ClCompile Include="application.cpp" />
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="coordinate_convertor.cpp" />
     <ClCompile Include="line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="primitives.cpp" />
-    <ClCompile Include="program.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="text_overlay.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\include\Camera.h" />
+    <ClInclude Include="..\..\common\include\program.h" />
     <ClInclude Include="application.h" />
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="coordinate_convertor.h" />
     <ClInclude Include="line.h" />
     <ClInclude Include="primitives.h" />
-    <ClInclude Include="program.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="text_overlay.h" />
   </ItemGroup>

@@ -42,6 +42,7 @@ glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
+glm::vec3 lightColor(1.f, 1.f, 1.f);
 
 // The MAIN function, from here we start the application and run the game loop
 int main()
@@ -162,13 +163,25 @@ int main()
 
 	Texture text("../../resourses/images/container2.png");
 	Texture text2("../../resourses/images/lighting_maps_specular_color.png");
-	Texture text3("../../resourses/images/matrix.jpg");
+
 
 	lightingShader.use();
 	glUniform1i(glGetUniformLocation(lightingShader.id(), "material.diffuse"), 0);
-	glUniform1i(glGetUniformLocation(lightingShader.id(), "material.specular"), 1);
-	GLint i = glGetUniformLocation(lightingShader.id(), "material.emis");
+	glUniform1i(glGetUniformLocation(lightingShader.id(), "material.specular"), 1);	
 	glUniform1i(glGetUniformLocation(lightingShader.id(), "material.emis"), 2);
+
+	glm::vec3 cubePositions[] = {
+		glm::vec3(0.0f,  0.0f,  0.0f),
+		glm::vec3(2.0f,  5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3(2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f,  3.0f, -7.5f),
+		glm::vec3(1.3f, -2.0f, -2.5f),
+		glm::vec3(1.5f,  2.0f, -2.5f),
+		glm::vec3(1.5f,  0.2f, -1.5f),
+		glm::vec3(-1.3f,  1.0f, -1.5f)
+	};
 
 	// Game loop
 	while (!glfwWindowShouldClose(window))
@@ -186,7 +199,6 @@ int main()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
 		// Use cooresponding shader when setting uniforms/drawing objects
 		lightingShader.use();
 		GLint lightPosLoc = glGetUniformLocation(lightingShader.id(), "light.position");
@@ -194,8 +206,8 @@ int main()
 		glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
 		glUniform3f(viewPosLoc, camera.position().x, camera.position().y, camera.position().z);
 		// Set lights properties
-		glUniform3f(glGetUniformLocation(lightingShader.id(), "light.ambient"), .2f, 0.2f, 0.2f);
-		glUniform3f(glGetUniformLocation(lightingShader.id(), "light.diffuse"), 0.5f, 0.5f, 0.5f);
+		glUniform3f(glGetUniformLocation(lightingShader.id(), "light.ambient"), .2f, .2f, .2f);
+		glUniform3f(glGetUniformLocation(lightingShader.id(), "light.diffuse"), .5f, .5f, .5f);
 		glUniform3f(glGetUniformLocation(lightingShader.id(), "light.specular"), 1.0f, 1.0f, 1.0f);
 		// Set material properties
 		glUniform3f(glGetUniformLocation(lightingShader.id(), "material.specular"), 0.5f, 0.5f, 0.5f);
@@ -212,7 +224,7 @@ int main()
 		// Pass the matrices to the shader
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
+		
 		// Bind diffuse map
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, text.id());
@@ -220,17 +232,30 @@ int main()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, text2.id());
 
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, text3.id());
-		
 
 		// Draw the container (using container's vertex attributes)
 		glBindVertexArray(containerVAO);
 		glm::mat4 model;
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
+		//glBindVertexArray(0);
 
+		GLint  lightDirPos = glGetUniformLocation(lightingShader.id(), "light.direction");
+		glUniform3f(lightDirPos, -.2f, -1.f, -.3f);
+		//glUniform3f(lightDirPos, 1.f - lightPos.x, 1.f - lightPos.y, 1.f - lightPos.z);
+
+		for (GLuint i = 0; i < 10; i++)
+		{
+			model = glm::mat4();
+			model = glm::translate(model, cubePositions[i]);
+			GLfloat angle = 2.0f * (i+1);
+			model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
+
+		
 		// Also draw the lamp object, again binding the appropriate shader
 		lampShader.use();
 		// Get location objects for the matrices on the lamp shader (these could be different on a different shader)
@@ -240,6 +265,12 @@ int main()
 		// Set matrices
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+		GLint lampLightColorLoc = glGetUniformLocation(lampShader.id(), "lightColor");
+		glUniform3f(lampLightColorLoc, lightColor.x, lightColor.y, lightColor.z);
+
+		//lightColor.x = sin(currentFrame);
+
 		model = glm::mat4();
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
@@ -270,31 +301,49 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		else if (action == GLFW_RELEASE)
 			keys[key] = false;
 	}
-	float offset = 0.25f;
-	if (key == GLFW_KEY_UP && action == GLFW_PRESS)
-	{
-		lightPos.y -= offset;
-	}
-	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
-	{
-		lightPos.y += offset;
-	}
-	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-	{
-		lightPos.x += offset;
-	}
-	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-	{
-		lightPos.x -= offset;
-	}
 
-	if (key == GLFW_KEY_R && action == GLFW_PRESS)
+	if (action == GLFW_PRESS)
 	{
-		lightPos.z += offset;
-	}
-	if (key == GLFW_KEY_F && action == GLFW_PRESS)
-	{
-		lightPos.z -= offset;
+			const float offset = .25f;
+			switch (key)
+			{
+			case GLFW_KEY_UP:
+			{
+				lightPos.y -= offset;
+				break;
+			}
+			case GLFW_KEY_DOWN:
+			{
+				lightPos.y += offset;
+				break;
+			}
+			case GLFW_KEY_LEFT:
+			{
+				lightPos.x += offset;
+				break;
+			}
+			case GLFW_KEY_RIGHT:
+			{
+				lightPos.x -= offset;
+				break;
+			}
+
+			case GLFW_KEY_R:
+			{
+				lightPos.z += offset;
+				break;
+			}
+			case GLFW_KEY_F:
+			{
+				lightPos.z -= offset;
+				break;
+			}
+			default:
+			{
+				break;
+			}
+		}
+
 	}
 }
 
@@ -309,6 +358,10 @@ void do_movement()
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (keys[GLFW_KEY_D])
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+	if (keys[GLFW_KEY_Z])
+		camera.ProcessKeyboard(UP, deltaTime);
+	if (keys[GLFW_KEY_X])
+		camera.ProcessKeyboard(DOWN, deltaTime);
 }
 
 bool firstMouse = true;
