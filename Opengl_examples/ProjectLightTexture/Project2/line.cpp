@@ -34,7 +34,7 @@ void Line::setData(
 	_countVertices = (points.size() - 1) * 8;
 	GLfloat* vertex = new GLfloat[_countVertices];
 
-	for (int i = 1; i < points.size(); ++i)
+	for (size_t i = 1; i < points.size(); ++i)
 		calculateRectangle(
 			convertor.point(points[i - 1]),
 			convertor.point(points[i]),
@@ -50,7 +50,7 @@ void Line::setData(
 	_countIndices = (points.size() - 1) * countInd;
 	GLuint* indices = new GLuint[_countIndices];
 
-	for (auto i = 0, k = 0; i < _countIndices; ++k, i += countInd)
+	for (size_t i = 0, k = 0; i < _countIndices; ++k, i += countInd)
 		for (auto j = 0; j < countInd; ++j)
 			indices[k * countInd + j] = i + ind[j] - (k * 2);
 

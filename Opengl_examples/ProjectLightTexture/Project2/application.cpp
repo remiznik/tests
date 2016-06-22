@@ -142,10 +142,10 @@ void application::calulatePointsFromData()
 	data.reserve(_dataSize);
 
 	std::vector<Point> smaData;
-	smaData.reserve((float)ceil(_dataSize / _averageInterval));
+	smaData.reserve((int)ceil(_dataSize / _averageInterval));
 
 	std::vector<Point> emaData;
-	emaData.reserve((float)ceil(_dataSize / _averageInterval));
+	emaData.reserve((int)ceil(_dataSize / _averageInterval));
 
 	int index = 0;
 	float smaSum = .0f, emaSum = .0f;
@@ -311,7 +311,7 @@ void application::dataGenerate(double time)
 		_data.push_back(rand() % _generatorMaxValue);
 		++_dataSize;
 
-		while (_fixedDataPoints && _dataSize > _fixePoints)
+		while (_fixedDataPoints && (int)_dataSize > _fixePoints)
 		{
 			_data.pop_front();
 			--_dataSize;

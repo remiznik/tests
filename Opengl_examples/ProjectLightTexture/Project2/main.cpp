@@ -187,7 +187,7 @@ int main()
 	while (!glfwWindowShouldClose(window))
 	{
 		// Calculate deltatime of current frame
-		GLfloat currentFrame = glfwGetTime();
+		GLfloat currentFrame = GLfloat(glfwGetTime());
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
@@ -304,9 +304,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	if (action == GLFW_PRESS)
 	{
-			const float offset = .25f;
-			switch (key)
-			{
+		const float offset = .25f;
+		switch (key)
+		{
 			case GLFW_KEY_UP:
 			{
 				lightPos.y -= offset;
@@ -327,7 +327,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				lightPos.x -= offset;
 				break;
 			}
-
 			case GLFW_KEY_R:
 			{
 				lightPos.z += offset;
@@ -343,13 +342,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				break;
 			}
 		}
-
 	}
 }
 
 void do_movement()
 {
-	// Camera controls
 	if (keys[GLFW_KEY_W])
 		camera.ProcessKeyboard(FORWARD, deltaTime);
 	if (keys[GLFW_KEY_S])
@@ -369,22 +366,22 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
 	if (firstMouse)
 	{
-		lastX = xpos;
-		lastY = ypos;
+		lastX = (float)xpos;
+		lastY = (float)ypos;
 		firstMouse = false;
 	}
 
-	GLfloat xoffset = xpos - lastX;
-	GLfloat yoffset = lastY - ypos;  // Reversed since y-coordinates go from bottom to left
+	GLfloat xoffset = (float)xpos - lastX;
+	GLfloat yoffset = lastY - (float)ypos;  // Reversed since y-coordinates go from bottom to left
 
-	lastX = xpos;
-	lastY = ypos;
+	lastX = (float)xpos;
+	lastY = (float)ypos;
 
 	camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	camera.ProcessMouseScroll(yoffset);
+	camera.ProcessMouseScroll((float)yoffset);
 }
 

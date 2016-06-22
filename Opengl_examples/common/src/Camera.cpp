@@ -53,9 +53,6 @@ void Camera::ProcessKeyboard(const Camera_Movement direction, GLfloat deltaTime)
 		this->Position.y += velocity;
 	if (direction == DOWN)
 		this->Position.y -= velocity;
-	
-
-	//this->Position.y = 0.0f;
 }
 
 // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
