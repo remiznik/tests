@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class FirstPrj : ModuleRules
+public class FirstProj : ModuleRules
 {
-	public FirstPrj(TargetInfo Target)
+	public FirstProj(TargetInfo Target)
 	{
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
 

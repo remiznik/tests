@@ -3,11 +3,11 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class FirstPrjEditorTarget : TargetRules
+public class FirstProjTarget : TargetRules
 {
-	public FirstPrjEditorTarget(TargetInfo Target)
+	public FirstProjTarget(TargetInfo Target)
 	{
-		Type = TargetType.Editor;
+		Type = TargetType.Game;
 	}
 
 	//
@@ -20,6 +20,6 @@ public class FirstPrjEditorTarget : TargetRules
 		ref List<string> OutExtraModuleNames
 		)
 	{
-		OutExtraModuleNames.AddRange( new string[] { "FirstPrj" } );
+		OutExtraModuleNames.AddRange( new string[] { "FirstProj" } );
 	}
 }
