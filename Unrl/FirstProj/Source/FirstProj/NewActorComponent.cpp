@@ -20,8 +20,7 @@ UNewActorComponent::UNewActorComponent()
 void UNewActorComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	FString name = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *name);
+	UE_LOG(LogTemp, Warning, TEXT("DFDFD"));
 	// ...
 	
 }
