@@ -1,7 +1,7 @@
-Unrl/FirstPrj/Intermediate
-Unrl/FirstPrj/Build
-Unrl/FirstPrj/Binaries
-Unrl/FirstPrj/DerivedDataCache
-Unrl/FirstPrj/Saved
-Unrl/FirstPrj/Content/StarterContent/
-Unrl/FirstPrj/FirstPrj.VC.db
+*/Intermediate
+*/Build
+*/Binaries
+*/DerivedDataCache
+*/Saved
+*/Content/StarterContent/
+*.VC.db
