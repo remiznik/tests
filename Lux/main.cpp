@@ -5,9 +5,9 @@
 int main(int argc, char* argv[])
 {
 	Lux lux;
-	if (argc == 2)
+	if (argc == 1)
 	{
-		lux.runFile(argv[1]);
+		lux.runFile("var language = \"lox\";");
 	}
 	else
 	{

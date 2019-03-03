@@ -114,9 +114,11 @@ bool Scanner::isAlphaNumeric(char c) const
 
 void Scanner::identifier()
 {
-	while (isAlphaNumeric(peek())) advance();
-
-	auto text = source_.substr(start_, current_);
+	while (isAlphaNumeric(peek()))
+	{
+		advance();
+	}
+	auto text = source_.substr(start_, current_- start_);
 
 	auto it = keywords.find(text);
 	TokenType type = IDENTIFIER;
@@ -139,7 +141,7 @@ void Scanner::number()
 		while (isDigit(peek())) advance();
 	}
 
-	addToken(NUMBER, source_.substr(start_, current_));
+	addToken(NUMBER, source_.substr(start_, current_ - start_));
 }
 
 char Scanner::peekNext() const
@@ -184,7 +186,8 @@ char Scanner::peek() const
 
 char Scanner::advance()
 {
-	return source_[current_++];
+	current_++;
+	return source_[current_-1];
 }
 
 void Scanner::addToken(TokenType type)
@@ -194,7 +197,7 @@ void Scanner::addToken(TokenType type)
 
 void Scanner::addToken(TokenType type, const std::string& literal)
 {
-	auto lexeme = source_.substr(start_, current_);
+	auto lexeme = source_.substr(start_, current_ - start_);
 	tokens_.push_back(Token(type, lexeme, literal, line_));
 }
 
