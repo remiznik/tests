@@ -11,3 +11,8 @@ Unrl/FirstProj/Saved/
 Unrl/FirstProj/Binaries/
 Unrl/FirstProj/Config/
 Unrl/FirstProj/FirstProj.VC.VC.opendb
+*.ipch
+/Lux/Lux.vcxproj.user
+/Lux/Lux.vcxproj.filters
+/Lux/.vs/Lux/v15/Browse.VC.opendb
+/Lux/.vs/Lux/v15/.suo
