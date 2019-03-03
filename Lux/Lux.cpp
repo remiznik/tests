@@ -23,7 +23,7 @@ void Lux::runPromt()
 
 void Lux::runCode(const std::string& source)
 {
-	Scanner scanner;
-	auto tokens = scanner.scanTokens(source);
+	Scanner scanner(source);
+	auto tokens = scanner.scanTokens();
 
 }

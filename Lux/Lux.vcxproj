@@ -151,12 +151,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Error.h" />
     <ClInclude Include="Lux.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Scanner.h" />
     <ClInclude Include="Token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Error.cpp" />
     <ClCompile Include="Lux.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
