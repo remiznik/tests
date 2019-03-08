@@ -39,7 +39,6 @@ public:
 
 	std::string toString() const;
 
-private:
 	TokenType type_;
 	std::string lexeme_;
 	std::string literal_;

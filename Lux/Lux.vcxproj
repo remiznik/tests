@@ -151,14 +151,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AstPrinter.h" />
     <ClInclude Include="Error.h" />
+    <ClInclude Include="Exprs.h" />
+    <ClInclude Include="IExpr.h" />
+    <ClInclude Include="IVisitor.h" />
     <ClInclude Include="Lux.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Scanner.h" />
     <ClInclude Include="Token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AstPrinter.cpp" />
     <ClCompile Include="Error.cpp" />
+    <ClCompile Include="Exprs.cpp" />
     <ClCompile Include="Lux.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
