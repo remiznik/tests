@@ -1,0 +1,141 @@
+#include "pch.h"
+#include "Parser.h"
+#include "Exprs.h"
+
+
+Parser::Parser(const std::vector<Token>& tokens) : tokens_(tokens)
+{
+}
+
+Expr* Parser::expression()
+{
+	return equality();
+}
+
+Expr* Parser::equality()
+{
+	auto expr = comprasion();
+
+	while (match({ BANG_EQUAL, BANG_EQUAL }))
+	{
+		Token opr = previos();
+		Expr* right = comprasion();
+		expr = new Binary(expr, opr, right);
+	}
+
+	return expr;	 
+}
+
+Expr* Parser::comprasion()
+{
+	Expr* expr = addition();
+	while (match({ GREATER, GREATER_EQUAL, LESS, LESS_EQUAL }))
+	{
+		Token opr = previos();
+		Expr* right = addition();
+		expr = new Binary(expr, opr, right);
+	}
+
+	return expr;
+}
+
+Expr* Parser::addition()
+{
+	Expr* expr = multiplication();
+
+	while (match({MINUS, PLUS}))
+	{
+		Token opr = previos();
+		Expr* right = multiplication();
+		expr = new Binary(expr, opr, right);
+	}
+	return expr;
+}
+
+Expr* Parser::multiplication()
+{
+	Expr* expr = unary();
+
+	while (match({ SLASH, STAR }))
+	{
+		Token opr = previos();
+		Expr* right = unary();
+		expr = new Binary(expr, opr, right);
+	}
+	return expr;
+}
+
+Expr* Parser::unary()
+{
+	if (match({ BANG, MINUS }))
+	{
+		Token opr = previos();
+		Expr* right = unary();
+		return new Unary(opr, right);
+	}
+	return primary();
+}
+
+Expr* Parser::primary()
+{
+	if (match({ FALSE })) return new Literal("false");
+	if (match({ TRUE })) return new Literal("true");
+	if (match({ NIL })) return new Literal("nil");
+
+	if (match({ NUMBER, STRING }))
+	{
+		return new Literal(previos().literal_);
+	}
+
+	if (match({ LEFT_PAREN }))
+	{
+		Expr* expr = expression();
+		consume(RIGHT_PAREN, "Expect ')' after expression.");
+		return new Grouping(expr);
+	}
+}
+
+bool Parser::match(const std::vector<TokenType>& types)
+{
+	for (auto type : types)
+	{
+		if (check(type))
+		{
+			advance();
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Parser::check(TokenType type) const
+{
+	if (isAtEnd()) return false;
+	return peek().type_ == type;
+}
+
+Token Parser::advance()
+{
+	if (!isAtEnd()) current_++;
+	return previos();
+}
+
+bool Parser::isAtEnd() const
+{
+	return peek().type_ == EOF;
+}
+
+Token Parser::peek() const
+{
+	return tokens_[current_];
+}
+
+Token Parser::previos() const
+{
+	return tokens_[current_ - 1];
+}
+
+
+Parser::~Parser()
+{
+}

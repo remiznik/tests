@@ -157,6 +157,7 @@
     <ClInclude Include="IExpr.h" />
     <ClInclude Include="IVisitor.h" />
     <ClInclude Include="Lux.h" />
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Scanner.h" />
     <ClInclude Include="Token.h" />
@@ -167,6 +168,7 @@
     <ClCompile Include="Exprs.cpp" />
     <ClCompile Include="Lux.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
