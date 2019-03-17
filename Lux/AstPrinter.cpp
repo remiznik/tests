@@ -15,8 +15,8 @@ std::string AstPrinter::print(Expr* expr)
 
 void AstPrinter::visit(Binary* expr)
 {
-	//parenthesize(expr->token_.lexeme_, { expr->left_, expr->right_ });
-	parenthesize({ expr->left_, expr->right_ }, expr->token_.lexeme_);
+	parenthesize(expr->token_.lexeme_, { expr->left_, expr->right_ });
+	//parenthesize({ expr->left_, expr->right_ }, expr->token_.lexeme_);
 }
 
 void AstPrinter::parenthesize(const std::string & name, const std::vector<Expr*>& exprs)

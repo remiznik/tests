@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 	Lux lux;
 	if (argc == 1)
 	{
-		lux.runFile("var language = \"lox\";");
+		lux.runFile("(1-3) * 7");
 		//Expr* expression = new Binary(
 		//	new Unary(
 		//		Token(TokenType::MINUS, "-", "", 1),
