@@ -1,8 +1,28 @@
 #include "pch.h"
 #include "Parser.h"
 #include "Exprs.h"
+#include "Error.h"
 
-
+namespace
+{
+	void errorParser(Token token, const std::string& message)
+	{
+		if (token.type_ == TokenType::EOF_T)
+		{
+			std::string m("at end :");
+			m.append(message);
+			error(token.line_, m);
+		}
+		else
+		{
+			std::string m("at '");
+			m.append(token.lexeme_);
+			m.append("'");
+			m.append(message);
+			error(token.line_, m);
+		}
+	}
+}
 Parser::Parser(const std::vector<Token>& tokens) : tokens_(tokens)
 {
 }
@@ -95,6 +115,13 @@ Expr* Parser::primary()
 	}
 }
 
+Token Parser::consume(TokenType type, const std::string& message)
+{
+	if (check(type)) return advance();
+	errorParser(peek(), message);
+	return Token(EOF_T, "error","error", -1);
+}
+
 bool Parser::match(const std::vector<TokenType>& types)
 {
 	for (auto type : types)
@@ -122,7 +149,7 @@ Token Parser::advance()
 
 bool Parser::isAtEnd() const
 {
-	return peek().type_ == EOF;
+	return peek().type_ == EOF_T;
 }
 
 Token Parser::peek() const

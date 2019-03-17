@@ -27,6 +27,7 @@ private:
 	bool isAtEnd() const;
 	Token peek() const;
 	Token previos() const;
+	Token consume(TokenType type, const std::string& message);
 
 private:
 	size_t current_{ 0 };
